@@ -1,122 +1,82 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React from 'react';
+import TouchButton from './components/ui/TouchButton';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+export default function App() {
+  return(
+    <div className='flex flex-col h-screen bg-slate-900 text-slate100 select-none overflow-hidden'>
+      {/* NAVBAR */}
+      <header className = "h-16 bg-slate-800 border-b border-slate-700 flex items-center justify-between px-6 shrink-0"> 
+        <div className = "font-bold text-xl text-emerald-400">GNS POS</div>
+        <div className = "flex gap-4">
+          <TouchButton variant = "secondary" className = "min-h-40px px-4 py-1 text-lg">Ürün Yönetimi</TouchButton>
+          <TouchButton variant = "secondary" className = "min-h-40px px-4 py-1 text-lg">Gün Sonu</TouchButton>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
+      {/* 2. Main area (takes all area except header nav bar ) */}
+      <main className = "flex-1 flex overflow-hidden">
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Left Panel cart and transaction section */}
+        <section className = "w-1/3 flex flex-col border-r border-slate700 bg-slate-800/50">
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          {/* Cart List (Scrollable) */}
+          <div className = " flex-1 overflow-y-auto p-4 space-y-2">
+            <div className = "p-4 bg-slate-800 rounded-lg border border-slate-700 flex justify-between items-center">
+              <div>
+                <h3 className = "font-bold text-lg text-emerald-50">Ekmek</h3>
+                <p className = "text-slate-400 text-sm">2 x 10.00 TL</p>
+              </div>
+              <div className = "font-bold text-xl text-emerald-400">20.00 TL</div>
+            </div>
+          </div>
+          {/* Summary and payment part */}
+          <div className = "p-4 bg-slate-800 border-t border-slate-700 space-y-3">
+            <div className = "flex justify-between text-2xl font-bold mb-4">
+              <span className = "text-slate-50">GENEL TOPLAM</span>
+              <span className = "text-emerald-400">20.00 TL</span>
+            </div>
+            <div className = "grid grid-cols-2 gap-3">
+              <TouchButton variant = "danger" className = "min-h-16 text-xl">İptal</TouchButton>
+              <TouchButton variant = "primary" className = "min-h-16 text-xl">Öde</TouchButton>
+            </div>
+          </div>
+        </section>
+
+        {/* RIGHT PANEL : Quick products, Categories and numpad */}
+        <section className = "flex-1 flex flex-col">
+
+          {/* Upper right Categories and products */}
+          <div className = "flex-1 p-4 overflow-y-auto">
+            <h2 className = "text-xl font-bold mb-4 text-slate-300">Hızlı Ürünler</h2>
+            <div className = "grid grid-cols-6 gap-4">
+              <TouchButton variant = "secondary" className = "min-h-20 flex-col">
+                <span className = "text-lg">Çay</span>
+                <span className = "text-emerald-400 font-bold">15 TL</span>
+              </TouchButton>
+              <TouchButton variant = "secondary" className = "min-h-20 flex-col">
+                <span className = "text-lg">Su</span>
+                <span className = "text-emerald-400 font-bold">15 TL</span>
+              </TouchButton>
+            </div>
+          </div>
+
+          {/* Bottom right section Numpad and quick fuctions */}
+          <div className = "h-1/3 bg-slate-800 border-t border-slate-700 p-4">
+            <h2 className = "text-slate-400 mb-2 text-lg">Hızlı İşlemler / Numpad alanı</h2>
+            {/* later numpad numbers and characters comes here  */}
+            <div className = "grid grid-cols-5 gap-3">
+              <TouchButton variant = "secondary" className = "min-h-16"> Miktar Çarp </TouchButton>
+              <TouchButton variant = "warning" className = "min-h-16"> Fiyatı Gör </TouchButton>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className = "h-10 bg-slate-900 border-t border-slate-800 flex items-center justify-between px-6 text-slate-400 test-sm sgring-0">
+        <div>Kasiyer : Necdet Mehmet Güneş</div>
+        <div>22 Ekim 2026 - 14:30</div>
+      </footer>
+    </div>
+  );
 }
-
-export default App
