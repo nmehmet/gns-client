@@ -1,10 +1,30 @@
 import React from 'react';
 import TouchButton from './components/ui/TouchButton';
 import useCart from './features/pos/hooks/useCart';
+import { Maximize, RefreshCw } from 'lucide-react';
 
 export default function App() {
 
   const {cart, addToCart, cartTotal} = useCart();
+
+  //Toggle button for fullscreen mod for devices without keyboard 
+  const toggleFullscreen = () => {
+    //Check if fullscreen mode is active */}
+    if(!document.fullscreenElement) {
+      //if its not active toggle fullscreen on 
+      document.documentElement.requestFullscreen().catch(err => {
+        console.error("Tam ekran yapılamadı", err);
+      });
+    } else {
+      // if it is already on fulscreen exit
+      document.exitFullscreen();
+    }
+  };
+
+  //function that refreshes page
+  const refreshPage = () => {
+    window.location.reload();
+  };
 
   return(
     <div className='flex flex-col h-screen bg-slate-900 text-slate100 select-none overflow-hidden'>
@@ -12,8 +32,14 @@ export default function App() {
       <header className = "h-16 bg-slate-800 border-b border-slate-700 flex items-center justify-between px-6 shrink-0"> 
         <div className = "font-bold text-xl text-emerald-400">GNS POS</div>
         <div className = "flex gap-4">
-          <TouchButton variant = "secondary" className = "min-h-40px px-4 py-1 text-lg">Ürün Yönetimi</TouchButton>
-          <TouchButton variant = "secondary" className = "min-h-40px px-4 py-1 text-lg">Gün Sonu</TouchButton>
+          <TouchButton variant = "warning" onClick = {refreshPage} className = "px-4 py-1 min-h-10 flex items-center justify-center">
+            <RefreshCw size = {24}></RefreshCw>
+          </TouchButton>
+          <TouchButton variant = "primary" onClick = {toggleFullscreen} className = "px-4 py-1 min-h-10 flex items-center justify-center">
+            <Maximize size = {24}></Maximize>  
+          </TouchButton>
+          <TouchButton variant = "secondary" className = "min-h-10 px-4 py-1 text-lg">Ürün Yönetimi</TouchButton>
+          <TouchButton variant = "secondary" className = "min-h-10 px-4 py-1 text-lg">Gün Sonu</TouchButton>
         </div>
       </header>
 
@@ -24,7 +50,7 @@ export default function App() {
         <section className = "w-1/3 flex flex-col border-r border-slate700 bg-slate-800/50">
 
           {/* Cart List (Scrollable) */}
-          <div className = " flex-1 overflow-y-auto p-4 space-y-2">
+          <div className = " flex-1 overflow-y-auto p-4 space-y-2 border border-slate-800">
             {/* If the cart is empty give some info to user */}
             {cart.length === 0 && (
               <div className = "text-slate-400 text-center mt-4">Sepet şu an boş...</div>
@@ -32,7 +58,7 @@ export default function App() {
 
             {/* if cart is not empty return products that inside cart. */}
             {cart.map((item) => (
-              <div key = {item.id} className = "p-4 bg-slate-800 rounded-lg border border-slate-700 flex justify-between items-center">
+              <div key = {item.id} className = "p-4 bg-slate-800 rounded-lg border border-slate-800 flex justify-between items-center">
                 <div>
                   <h3 className = "font-bold text-lg text-emerald-50">{item.name}</h3>
                   <p className = "text-slate-400 text-sm">{item.quantity} x {item.price.toFixed(2)} TL</p>
@@ -80,7 +106,7 @@ export default function App() {
           </div>
 
           {/* Bottom right section Numpad and quick fuctions */}
-          <div className = "h-1/3 bg-slate-800 border-t border-slate-700 p-4">
+          <div className = "h-1/3 bg-slate-800 border-t border-l border-slate-800 p-4">
             <h2 className = "text-slate-400 mb-2 text-lg">Hızlı İşlemler / Numpad alanı</h2>
             {/* later numpad numbers and characters comes here  */}
             <div className = "grid grid-cols-5 gap-3">
